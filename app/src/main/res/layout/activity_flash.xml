@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/splash_background" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.4"
+        android:text="穿越茫茫人海\n寻找属于我们的那一份宁静"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tv_activity_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.4"
+        android:text="3 S"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
+</FrameLayout>

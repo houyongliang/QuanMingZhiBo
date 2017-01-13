@@ -1,0 +1,211 @@
+apply plugin: 'com.android.library'/*声明是Android程序时 library  */
+apply plugin: 'com.github.dcendents.android-maven'   /*dcendents 内脏*/
+apply plugin: 'com.jfrog.bintray'                   /*bin tray  纸盒*/
+apply plugin: 'me.tatarka.retrolambda'
+
+
+version = "1.0.0"
+android {
+    /* 编译SDK的版本*/
+    compileSdkVersion rootProject.ext.compileSdkVersion    /*打包SDK版本  */
+    buildToolsVersion rootProject.ext.buildToolsVersion    /*编译工具版本*/
+
+    defaultConfig {/* 默认打包配置  */
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"/*android 系统测试*/
+
+    }
+    buildTypes {/*  构建签名和混淆  */
+        release {
+            minifyEnabled false /*minifyEnabled主要用来控制是否运行混淆的。*/
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {  /*对Java的版本配置，以便使用对应版本的一些新特性。*/
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {  /*依赖包*/
+    compile fileTree(include: ['*.jar'], dir: 'libs')   /*//加载本地目录下的jar包   */
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    testCompile 'junit:junit:4.12'
+
+    // Dependencies for local unit tests  依赖单元测试
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
+    testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
+    testCompile "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
+
+
+    // Espresso UI Testing  浓咖啡测试
+    androidTestCompile "com.android.support.test:runner:$rootProject.runnerVersion"
+    androidTestCompile "com.android.support.test:rules:$rootProject.rulesVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
+
+    // Resolve conflicts between main and test APK: 解决 main 和 test  解决冲突
+    androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+
+    // Android support    V7支持的包  Cardview design recyclerview
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+
+    // Retrofit 改造的意思    网络框架  okhttp和　Retrofit
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttploggingVersion"
+    compile "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+
+    // RxJava　　Rxjava  和 rxbinding  异步处理获取消息
+    compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
+    compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
+    compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxbindingVersion"
+//    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxjavaVersion"
+//    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxandroidVersion"
+//    compile "com.jakewharton.rxbinding:rxbinding:$rootProject.rxbindingVersion"
+
+    // Glide  图片处理
+    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    compile "com.github.bumptech.glide:okhttp-integration:$rootProject.glideokhttpVersion"
+
+
+    // Others 其他  photoview  代替图片
+    compile "com.commit451:PhotoView:$rootProject.photoviewVersion"
+//    compile "com.github.promeg:tinypinyin:1.0.0"
+//    compile "org.greenrobot:eventbus:3.0.0"
+
+
+    //Butterknife  黄牛刀
+    compile 'com.jakewharton:butterknife:8.2.1'
+
+    //fragmentation  碎片
+    compile 'me.yokeyword:fragmentation:0.7.13'
+
+    //permissions  权限处理  基于RxJava开发的用于帮助在Android 6.0中处理运行时权限检测的框架
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.8.0@aar'
+
+
+
+}
+
+
+configurations {  /*配置*/   /*测试的时候排除 支持包和 v4 包*/
+    androidTestCompile.exclude group: 'com.android.support', module: 'support-v4'
+}
+/*def  定义变量*/
+//def siteUrl = "https://github.com/SuperMan42/MVP"
+//def gitUrl = "https://github.com/SuperMan42/MVP.git"
+
+/*使用toString()该组的值。该组默认为以点为分隔符的路径。*/
+group = "com.fnfh.quanmingzhibo"
+
+/* install 安装   ??? */
+//install {
+//    /* repositories 存储库*/
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                name 'mvp frame'//没什么实际意义
+//                url siteUrl
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                //添加开发者信息
+//                developers {
+//                    developer {
+//                        id 'SuperMan001'
+//                        name 'houyonglaing'
+//                        email '411136528@qq.com'
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//                }
+//            }
+//        }
+//    }
+//}
+
+task sourcesJar(type: Jar) {/*TASK 命令 .jar 类型 */
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {/*  .javadoc 类型*/
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {  /* .jar 类型  dependsOn依赖于取决于 javadoc*/
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+javadoc {/*options 选项*/
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+    }
+}
+
+
+artifacts {  /*artifacts 工件 */
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+Properties properties = new Properties() /*Properties 属性*/
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+/*bin tray 纸盒 */
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']  /*archives  档案*/
+    pkg {
+        repo = "maven"//上传的中央仓库名称
+        name = "MVP"//上传的项目的名字
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true  //是否发布
+    }
+}
+
+
+
+
+
+//task makeJar(type: Copy) {
+//    delete 'build/libs/mysdk.jar' from('build/intermediates/bundles/release/')
+//    into('build/libs/') include('classes.jar')
+//    rename('classes.jar', 'HouYongLiangLib.jar')
+//}
+//makeJar.dependsOn(build)
+//
+//compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+//compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
