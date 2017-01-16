@@ -46,8 +46,8 @@ import static android.R.id.list;
  */
 public class DailyFragment extends CoreBaseFragment<DailyPresenter, DailyModel> implements ZhihuContract.DailyView {
     CoreRecyclerView coreRecyclerView;
-//    LoopRecyclerViewPager vpTop;
-    ConvenientBanner vpTop;
+    LoopRecyclerViewPager vpTop;
+//    ConvenientBanner vpTop;
     @Override
     public int getLayoutId() {
         return 0;
@@ -69,8 +69,10 @@ public class DailyFragment extends CoreBaseFragment<DailyPresenter, DailyModel> 
                    @Override
                    public void SimpleOnItemClick(com.fnfh.quanmingzhibo.wigdet.recyclerview.BaseQuickAdapter adapter, View view, int position) {
                        showToast("点击了" + position+"条目");
-// ((SupportFragment) getParentFragment()).start(DailyDetailsFragment.newInstance(((DailyListBean.StoriesBean) adapter.getData().get(position)).getId()));
-               ZhihuDetailsActivity.start(mActivity, view.findViewById(R.id.iv_daily_item_image), ((DailyListBean.StoriesBean) adapter.getData().get(position)).getId());
+                       ZhihuDetailsActivity.start(mActivity, view.findViewById(R.id.iv_daily_item_image), ((DailyListBean.StoriesBean) adapter.getData().get(position)).getId());
+
+//                       ((SupportFragment) getParentFragment()).start(DailyDetailsFragment.newInstance(((DailyListBean.StoriesBean) adapter.getData().get(position)).getId()));
+//               ZhihuDetailsActivity.start(mActivity, view.findViewById(R.id.iv_daily_item_image), ((DailyListBean.StoriesBean) adapter.getData().get(position)).getId());
 //
                    }
 
@@ -82,10 +84,11 @@ public class DailyFragment extends CoreBaseFragment<DailyPresenter, DailyModel> 
     @Override
     public void initUI(View view, @Nullable Bundle savedInstanceState) {
         View view1 = LayoutInflater.from(mContext).inflate(R.layout.daily_header, (ViewGroup) coreRecyclerView.getParent(), false);
-//        vpTop = (LoopRecyclerViewPager) view1.findViewById(R.id.vp_top);
+        vpTop = (LoopRecyclerViewPager) view1.findViewById(R.id.vp_top);
 
-//        vpTop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        vpTop = (ConvenientBanner) view1.findViewById(R.id.vp_top);
+        vpTop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+//        vpTop = (ConvenientBanner) view1.findViewById(R.id.vp_top);
+
 
         coreRecyclerView.addHeaderView(view1);
     }
@@ -98,28 +101,28 @@ public class DailyFragment extends CoreBaseFragment<DailyPresenter, DailyModel> 
 
     @Override
     public void showContent(DailyListBean info) {
-        List<DailyListBean.TopStoriesBean> top_stories = info.getTop_stories();
-        initConvenientBanner(vpTop,top_stories);
-        vpTop.setOnItemClickListener(new com.bigkoo.convenientbanner.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(mContext, "。。。。点击了", Toast.LENGTH_SHORT).show();
-                  ZhihuDetailsActivity.start(mActivity,vpTop.findViewById(R.id.iv_top_image) , top_stories.get(position).getId());
-            }
-        });
-//        vpTop.setAdapter(new BaseQuickAdapter<DailyListBean.TopStoriesBean, BaseViewHolder>(R.layout.item_daily_header, info.getTop_stories()) {
+//        List<DailyListBean.TopStoriesBean> top_stories = info.getTop_stories();
+//        initConvenientBanner(vpTop,top_stories);
+//        vpTop.setOnItemClickListener(new com.bigkoo.convenientbanner.OnItemClickListener() {
 //            @Override
-//            protected void convert(BaseViewHolder helper, DailyListBean.TopStoriesBean item) {
-//
-//                helper.setText(R.id.tv_top_title, item.getTitle());
-//                Glide.with(mContext).load(item.getImage()).crossFade().placeholder(R.drawable.ic_default_cover).into((ImageView) helper.getView(R.id.iv_top_image));
-//                helper.setOnClickListener(R.id.iv_top_image, v -> {
-//                    Toast.makeText(mContext, "。。。。点击了", Toast.LENGTH_SHORT).show();
-//                  ZhihuDetailsActivity.start(mActivity, v.findViewById(R.id.iv_top_image), item.getId());
-////                    ((SupportFragment) getParentFragment()).start(DailyDetailsFragment.newInstance(item.getId()));
-//                });
+//            public void onItemClick(int position) {
+//                Toast.makeText(mContext, "。。。。点击了", Toast.LENGTH_SHORT).show();
+//                  ZhihuDetailsActivity.start(mActivity,vpTop.findViewById(R.id.iv_top_image) , top_stories.get(position).getId());
 //            }
 //        });
+        vpTop.setAdapter(new BaseQuickAdapter<DailyListBean.TopStoriesBean, BaseViewHolder>(R.layout.item_daily_header, info.getTop_stories()) {
+            @Override
+            protected void convert(BaseViewHolder helper, DailyListBean.TopStoriesBean item) {
+
+                helper.setText(R.id.tv_top_title, item.getTitle());
+                Glide.with(mContext).load(item.getImage()).crossFade().placeholder(R.drawable.ic_default_cover).into((ImageView) helper.getView(R.id.iv_top_image));
+                helper.setOnClickListener(R.id.iv_top_image, v -> {
+                    Toast.makeText(mContext, "。。。。点击了", Toast.LENGTH_SHORT).show();
+                  ZhihuDetailsActivity.start(mActivity, v.findViewById(R.id.iv_top_image), item.getId());
+//                    ((SupportFragment) getParentFragment()).start(DailyDetailsFragment.newInstance(item.getId()));
+                });
+            }
+        });
 
 
 
@@ -134,7 +137,7 @@ public class DailyFragment extends CoreBaseFragment<DailyPresenter, DailyModel> 
     @Override
     public void doInterval(int i) {
         /*平滑滚动到位置*/
-//        vpTop.smoothScrollToPosition(i);
+        vpTop.smoothScrollToPosition(i);
     }
 
     private void initConvenientBanner(ConvenientBanner cb,List<DailyListBean.TopStoriesBean> list){
