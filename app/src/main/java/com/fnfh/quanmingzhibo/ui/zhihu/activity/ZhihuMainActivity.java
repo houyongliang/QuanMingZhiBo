@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.fnfh.houyonglianglib.base.CoreBaseActivity;
 import com.fnfh.quanmingzhibo.R;
+import com.fnfh.quanmingzhibo.ui.tv.activity.TvMainActivity;
 import com.fnfh.quanmingzhibo.ui.zhihu.fragment.ZhihuMainFragment;
 
 
@@ -58,7 +59,8 @@ public class ZhihuMainActivity extends CoreBaseActivity
         if (id == R.id.menu_publish) {
             // Handle the camera action
         } else if (id == R.id.menu_tv) {
-
+            /*开启 视频活动*/
+            startActivity(TvMainActivity.class);
         } else if (id == R.id.setting) {
 
         } else if (id == R.id.about) {

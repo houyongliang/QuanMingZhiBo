@@ -29,14 +29,18 @@
         <activity
             android:name=".ui.zhihu.activity.ZhihuMainActivity"
             android:launchMode="singleTask">
+
+        </activity>
+        <activity android:name=".ui.zhihu.activity.ZhihuDetailsActivity" />
+        <activity android:name=".ui.zhihu.activity.WechatDetailsActivity" />
+        <activity android:name=".ui.tv.activity.TvMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ui.zhihu.activity.ZhihuDetailsActivity"></activity>
-        <activity android:name="com.fnfh.quanmingzhibo.ui.zhihu.activity.WechatDetailsActivity"></activity>
     </application>
 
 </manifest>
